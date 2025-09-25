@@ -21,7 +21,7 @@
                 ("Leia", 9999),
                 ("Yoda", 1337)
             };
-            
+
             bool success = false;
 
             int attempts = 3;
@@ -31,7 +31,7 @@
 
                 Console.Write("Användarnamn:"); string user1 = Console.ReadLine();
                 Console.Write("PIN-kod:"); int pin;
-                while(!int.TryParse(Console.ReadLine(), out pin))
+                while (!int.TryParse(Console.ReadLine(), out pin))
                 {
                     Console.WriteLine("Din pinkod kan endast bestå av heltal.");
                 }
@@ -63,7 +63,7 @@
                     Console.WriteLine("Du klarade inte att logga in på 3 försök. \nProgrammet avslutas...");
                     break;
                 }
-                
+
             }
 
 
