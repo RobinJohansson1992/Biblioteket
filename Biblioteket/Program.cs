@@ -4,11 +4,44 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Välkommen till bibliotekets lånesystem! \nAnge användarnamn och lösenkod för att logga in:");
 
             LogIn();
 
-            Console.WriteLine("vad vill du göra?");
+            Console.WriteLine("Vad vill du göra?");
+            Console.WriteLine("1. Visa böcker \n2. Låna bok \n3. Lämna tillbaka bok \n4. Mina lån \n5. Logga ut");
+
+            int userChoise = -1;
+
+            while (!int.TryParse(Console.ReadLine(), out userChoise) || userChoise < 1 || userChoise > 5)
+            {
+                Console.WriteLine("Du måste ange ett nummer från listan.");
+            }
+
+            switch (userChoise)
+            {
+                case 1:
+                    Console.WriteLine("Visa böcker");
+                    break;
+
+                case 2:
+                    Console.WriteLine("Låna bok");
+                    break;
+
+                case 3:
+                    Console.WriteLine("Lämna tillbaka bok");
+                    break;
+
+                case 4:
+                    Console.WriteLine("Mina lån");
+                    break;
+
+                case 5:
+                    Console.WriteLine("Logga ut");
+                    Console.WriteLine("Du loggas ut...");
+                    Console.Clear();
+                    LogIn();
+                    break;
+            }
         }
 
         static void LogIn()
@@ -21,6 +54,8 @@
                 ("Leia", 9999),
                 ("Yoda", 1337)
             };
+
+            Console.WriteLine("Välkommen till bibliotekets lånesystem! \nAnge användarnamn och lösenkod för att logga in:");
 
             bool success = false;
 
@@ -61,7 +96,7 @@
                 if (attempts <= 0)
                 {
                     Console.WriteLine("Du klarade inte att logga in på 3 försök. \nProgrammet avslutas...");
-                    break;
+                    Environment.Exit(0);
                 }
 
             }
