@@ -4,6 +4,7 @@
     
     internal class Program
     {
+        //Array that holds the available books in the library:
         static (int bookIndex, string books, int available)[] bookInfo =
 
 
@@ -15,16 +16,50 @@
                 (5, "A  song of ice and fire", 2)
             };
 
+        //Method for borrowing books:
+        static void BorrowBooks()
+        {
+            Console.Clear();
+            Console.WriteLine("Skriv in index-nummer på boken du vill låna:");
+
+            int userInput;
+            while (!int.TryParse(Console.ReadLine(), out userInput) || userInput < 1 || userInput > 5)
+            {
+                Console.WriteLine("Du måste ange ett index-nummer på en bok i biblioteket.");
+            }
+
+            // Userinput - 1 is saved in arrayIndex because the array begins on 0:
+            int arrayIndex = userInput - 1;
+
+            // book stores the book the user picked from bookInfo:
+            var book = bookInfo[arrayIndex];
+
+            if (book.available > 0)
+            {
+                //If there are more than 0 books in the library, book.available is reduced by -1.
+                bookInfo[arrayIndex] = (book.bookIndex, book.books, book.available - 1);
+                Console.WriteLine($"Du lånade boken {book.books}");
+            }
+            else
+            {
+                //If there are 0 of this book left in the library, print this:
+                Console.WriteLine("Den här boken finns inte just nu.");
+            }
+
+                Console.WriteLine("Tryck enter för att återgå till huvudmenyn.");
+            Console.ReadLine();
+            Menu();
+        }
 
         static void Main(string[] args)
         {
 
             LogIn();
 
-            Menu();
-            
         }
 
+
+        //Login menu method:
         static void LogIn()
         {
             (string userName, int code)[] users =
@@ -63,6 +98,7 @@
                     }
                 }
 
+                //Successful login opens the main menu:
                 if (success)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
@@ -70,9 +106,9 @@
                     Console.ResetColor();
                     Console.WriteLine("Tryck valfri knapp för att gå vidare.");
                     Console.ReadLine();
-                    Console.Clear();
-                    break;
+                    Menu();
                 }
+                //User has 3 attempts to log in
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
@@ -81,6 +117,7 @@
                     attempts--;
                 }
 
+                //Program stops if the login fails 
                 if (attempts <= 0)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
@@ -94,6 +131,7 @@
 
         }
 
+        //Method that displays the main menu:
         static void Menu()
         {
             Console.Clear();
@@ -115,7 +153,7 @@
                     break;
 
                 case 2:
-                    Console.WriteLine("Låna bok");
+                    BorrowBooks();
                     break;
 
                 case 3:
@@ -136,6 +174,7 @@
             }
         }
 
+        //Method to display the available books in library:
         static void DisplayBooks()
         {
             Console.Clear();
@@ -149,6 +188,9 @@
             Console.ReadLine();
             Menu();
         }
+
+       
+        
 
 
         
