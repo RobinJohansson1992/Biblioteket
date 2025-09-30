@@ -16,9 +16,16 @@
                 (5, "A  song of ice and fire", 2)
             };
 
-      
 
-        
+        static (string borrowedBooks, int numbersBorrowed)[] borrowedInfo =
+      {
+                ("Harry Potter", 0),
+                ("Sagan om ringen", 0),
+                ("Bamse i trollskogen", 0),
+                ("Throne of glass", 0),
+                ("A  song of ice and fire", 0)
+        };
+
 
 
         //Method for returning books:
@@ -28,26 +35,38 @@
             Console.WriteLine("Ange index-nummer på boken du vill returnera:");
 
             int userInput;
-            while (!int.TryParse(Console.ReadLine(), out userInput) || userInput < 0 || userInput > 5)
+            while (!int.TryParse(Console.ReadLine(), out userInput) || userInput < 1 || userInput > 5)
             {
                 Console.WriteLine("Du måste ange index-nummer på en bok i biblioteket.");
             }
 
+            // Userinput - 1 is saved in arrayIndex because the array begins on 0:
             int arrayIndex = userInput - 1;
-
+            // book stores the book the user picked from bookInfo:
             var book = bookInfo[arrayIndex];
+            // returnBook also stores the book the user picked to know if a book is borrowed...
+            var returnBook = borrowedInfo[arrayIndex];
+
+            while (returnBook.numbersBorrowed < 1)
+            {
+                Console.WriteLine("Den här boken har du inte i ditt 'lånat-saldo'.");
+                Console.WriteLine("Tryck enter för att återgå till menyn.");
+                Console.ReadLine();
+                Menu();
+            }
 
             if (arrayIndex > 0 || arrayIndex < 6)
             {
+                // Available books of the one the user picked increase by +1 in library,
+                // the book the user returns decrease by -1 in borrowed books.
                 bookInfo[arrayIndex] = (book.bookIndex, book.books, book.available + 1);
+                borrowedInfo[arrayIndex] = (returnBook.borrowedBooks, returnBook.numbersBorrowed - 1);
                 Console.WriteLine($"Du lämnade tillbaka {book.books}.");
                 Console.WriteLine("Tryck enter får att återgå till menyn.");
                 Console.ReadLine();
             }
-            else
-            {
-                Console.WriteLine("Nu blev det knas...");
-            }
+            
+           
 
                 Menu();
         }
@@ -69,12 +88,17 @@
 
             // book stores the book the user picked from bookInfo:
             var book = bookInfo[arrayIndex];
+            // borrowed also stores the book the user picked to know if a book is borrowed...
+            var borrowed = borrowedInfo[arrayIndex];
 
             if (book.available > 0)
             {
                 //If there are more than 0 books in the library, book.available is reduced by -1.
                 bookInfo[arrayIndex] = (book.bookIndex, book.books, book.available - 1);
-                Console.WriteLine($"Du lånade boken {book.books}");
+                //... and the numbersBorrowed increadse by +1
+                borrowedInfo[arrayIndex] = (borrowed.borrowedBooks, borrowed.numbersBorrowed + 1);
+                Console.WriteLine($"Du lånade boken {book.books}, du har nu lånat {borrowed.numbersBorrowed + 1} ex av {borrowed.borrowedBooks} ");
+                
             }
             else
             {
