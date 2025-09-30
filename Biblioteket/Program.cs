@@ -16,6 +16,42 @@
                 (5, "A  song of ice and fire", 2)
             };
 
+      
+
+        
+
+
+        //Method for returning books:
+        static void ReturnBooks()
+        {
+            Console.Clear();
+            Console.WriteLine("Ange index-nummer på boken du vill returnera:");
+
+            int userInput;
+            while (!int.TryParse(Console.ReadLine(), out userInput) || userInput < 0 || userInput > 5)
+            {
+                Console.WriteLine("Du måste ange index-nummer på en bok i biblioteket.");
+            }
+
+            int arrayIndex = userInput - 1;
+
+            var book = bookInfo[arrayIndex];
+
+            if (arrayIndex > 0 || arrayIndex < 6)
+            {
+                bookInfo[arrayIndex] = (book.bookIndex, book.books, book.available + 1);
+                Console.WriteLine($"Du lämnade tillbaka {book.books}.");
+                Console.WriteLine("Tryck enter får att återgå till menyn.");
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine("Nu blev det knas...");
+            }
+
+                Menu();
+        }
+
         //Method for borrowing books:
         static void BorrowBooks()
         {
@@ -157,7 +193,7 @@
                     break;
 
                 case 3:
-                    Console.WriteLine("Lämna tillbaka bok");
+                    ReturnBooks();
                     break;
 
                 case 4:
